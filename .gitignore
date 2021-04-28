@@ -39,6 +39,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+shared/
 
 # TypeScript v1 declaration files
 typings/
@@ -92,5 +93,3 @@ bin
 obj
 appsettings.json
 local.settings.json
-
-shared/config.json
