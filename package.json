@@ -1,11 +1,24 @@
 {
   "name": "eksamen-2021",
   "version": "1.0.0",
-  "description": "",
+  "description": "��#\u0000 \u0000E\u0000k\u0000s\u0000a\u0000m\u0000e\u0000n\u0000-\u00002\u00000\u00002\u00001\u0000\r\u0000 \u0000",
   "scripts": {
     "start": "func start",
     "test": "echo \"No tests yet...\""
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "tedious": "^11.0.7"
+  },
+  "devDependencies": {},
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luke2610/Eksamen-2021.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Luke2610/Eksamen-2021/issues"
+  },
+  "homepage": "https://github.com/Luke2610/Eksamen-2021#readme"
 }

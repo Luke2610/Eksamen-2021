@@ -24,18 +24,26 @@ module.exports.startDb = startDb;
 
 function insert(payload){
     return new Promise((resolve,reject) => {
-        const sql = `INSERT INTO [users].[users] (name, email, gender, country, birthdate) VALUES (@name, @email, @gender, @country, @birthdate)`
+        const sql = `INSERT INTO [users].[user] (firstname, lastname, gender, birthdate, country, city, interestedInGender, maxAge, minAge, biography, email, hashed_password) VALUES (@firstname, @lastname, @gender, @birthdate, @country, @city, @interestedInGender, @maxAge, @minAge, @biography, @email, @hashed_password)`
         const request = new Request(sql, (err) => {
             if (err){
                 reject(err)
                 console.log(err)
             }
         });
-        request.addParameter('name', TYPES.VarChar, payload.name)
-        request.addParameter('email', TYPES.VarChar, payload.email)
+        request.addParameter('firstname', TYPES.VarChar, payload.name)
+        request.addParameter('lastname', TYPES.VarChar, payload.email)
         request.addParameter('gender', TYPES.VarChar, payload.gender)
-        request.addParameter('country', TYPES.VarChar, payload.country)
         request.addParameter('birthdate', TYPES.Date, payload.birthdate)
+        request.addParameter('country', TYPES.VarChar, payload.country)
+        request.addParameter('city', TYPES.VarChar, payload.city)
+        request.addParameter('interestedInGender', TYPES.VarChar, payload.interestedInGender)
+        request.addParameter('maxAge', TYPES.Int, payload.maxAge)
+        request.addParameter('minAge', TYPES.Int, payload.minAge)
+        request.addParameter('biography', TYPES.VarChar, payload.biography)
+        request.addParameter('email', TYPES.VarChar, payload.email)
+        request.addParameter('hashed_password', TYPES.VarChar, payload.hashed_password)
+
 
         request.on('requestCompleted', (row) => {
             console.log('User instered', row);
@@ -50,7 +58,7 @@ module.exports.insert = insert;
 
 function select(name){
     return new Promise((resolve,reject) => {
-        const sql = 'SELECT * FROM [users].[users] where name = @name'
+        const sql = 'SELECT * FROM [users].[user] where firstname = @name'
         const request = new Request(sql, (err,rowcount) => {
         if(err){
             reject(err)
