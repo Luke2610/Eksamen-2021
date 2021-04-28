@@ -33,7 +33,7 @@ form.addEventListener('submit',function(e){
             hashed_password: hashed_password
         }),
         headers: {
-            "Content-Type": "application/json; charset-UST-8"
+            "Content-Type": "application/json; charset-UTF-8"
         }
     })
     .then((response) => {
@@ -41,7 +41,8 @@ form.addEventListener('submit',function(e){
     })
     .then((data) => {
         console.log(data)
-    }).catch((err) => {
+    })
+    .catch((err) => {
         console.log(err)
     })
 })
