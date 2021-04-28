@@ -14,7 +14,7 @@ form.addEventListener('submit',function(e){
     var minAge = document.getElementById("minAge").value
     var biography = document.getElementById("biography").value
     var email = document.getElementById("email").value
-    var hashed_password = document.getElementById("hashed_password")
+    var hashed_password = document.getElementById("hashed_password").value
 
     fetch("http://localhost:7071/api/user", {
         method: 'POST',
@@ -49,7 +49,7 @@ form.addEventListener('submit',function(e){
 var getButton = document.getElementById("getUsers")
 
 getButton.addEventListener("click",function(){
-    var firstname1 = document.getElementById("name").value
+    var firstname1 = document.getElementById("firstname").value
     fetch(`http://localhost:7071/api/user?name=${firstname1}`)
         .then(
             function(response){
