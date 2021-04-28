@@ -3,20 +3,34 @@ var form = document.getElementById("form")
 form.addEventListener('submit',function(e){
     e.preventDefault()
 
-    var name = document.getElementById("name").value
-    var email = document.getElementById("email").value
+    var firstname = document.getElementById("firstname").value
+    var lastname = document.getElementById("lastname").value
     var gender = document.getElementById("gender").value
-    var country = document.getElementById("country").value
     var birthdate = document.getElementById("birthdate").value
+    var country = document.getElementById("country").value
+    var city = document.getElementById("city").value
+    var interestedInGender = document.getElementById("interestedInGender").value
+    var maxAge = document.getElementById("maxAge").value
+    var minAge = document.getElementById("minAge").value
+    var biography = document.getElementById("biography").value
+    var email = document.getElementById("email").value
+    var hashed_password = document.getElementById("hashed_password")
 
     fetch("http://localhost:7071/api/user", {
         method: 'POST',
         body: JSON.stringify({
-            name: name,
-            email: email,
+            firstname: firstname,
+            lastname: lastname,
             gender: gender,
+            birthdate: birthdate,
             country: country,
-            birthdate: birthdate
+            city: city,
+            interestedInGender: interestedInGender,
+            maxAge: maxAge,
+            minAge: minAge,
+            biography: biography,
+            email: email,
+            hashed_password: hashed_password
         }),
         headers: {
             "Content-Type": "application/json; charset-UST-8"
@@ -35,8 +49,8 @@ form.addEventListener('submit',function(e){
 var getButton = document.getElementById("getUsers")
 
 getButton.addEventListener("click",function(){
-    var name1 = document.getElementById("name").value
-    fetch(`http://localhost:7071/api/user?name=${name1}`)
+    var firstname1 = document.getElementById("name").value
+    fetch(`http://localhost:7071/api/user?name=${firstname1}`)
         .then(
             function(response){
                 if (response.status !== 200){
