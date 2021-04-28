@@ -50,11 +50,11 @@ var getButton = document.getElementById("getUsers")
 
 getButton.addEventListener("click",function(){
     var firstname1 = document.getElementById("firstname").value
-    fetch(`http://localhost:7071/api/user?name=${firstname1}`)
+    fetch(`http://localhost:7071/api/user?firstname=${firstname1}`)
         .then(
             function(response){
                 if (response.status !== 200){
-                    console.log("Noget gik galt" + response.status)
+                    console.log("Noget gik galt " + response.status)
                     return 
                 }
 
