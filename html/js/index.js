@@ -68,3 +68,27 @@ getButton.addEventListener("click",function(){
             console.log(err)
         })
 })
+
+var loginButton = document.getElementById("loginButton")
+
+loginButton.addEventListener("click",function(){
+    var email = document.getElementById("email").value
+    var password = document.getElementById("password").value
+
+    fetch(`http://localhost:7071/api/user?email=${email}&password=${password}`)
+    .then(
+        function(response){
+            if (response.status !== 200){
+                console.log("Noget gik galt " + response.status)
+                return 
+            }
+
+            response.json().then(function(data){
+                console.log(data);
+            })
+        }
+    )
+    .catch(function (err){
+        console.log(err)
+    })
+})
