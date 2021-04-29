@@ -39,6 +39,21 @@ async function get(context,req){
     }
 }
 
+/*async function get(context,req){
+    try{
+        let email = req.query.email;
+        let user = await db.select(email)
+        context.res = {
+            body: user
+        }
+    } catch(error) {
+        context.res = {
+            status: 400,
+            body: `No email - ${error.message}`
+        }
+    }
+}*/
+
 async function post(context,req){
     try{
         let payload = req.body;

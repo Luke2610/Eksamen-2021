@@ -79,3 +79,23 @@ function select(firstname){
 
 module.exports.select = select;
 
+/*function select(email){
+    return new Promise((resolve,reject) => {
+        const sql = 'SELECT * FROM [users].[user] where email = @email'
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            reject({message: 'User does not exist'})
+        }
+    });
+    request.addParameter('email', TYPES.VarChar, email)
+
+    request.on('row',(colums) => {
+        resolve(colums)
+    })
+    connection.execSql(request)  
+    })
+
+}*/
