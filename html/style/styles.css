@@ -11,9 +11,10 @@ body{
 button{
     background-color: #190061;
     color: white;
-    padding: 3%;
+    width: 11%;
+    padding: 1%;
     font-family:'Courier New', Courier, monospace;
-    font-size:40;
+    font-size:60;
     margin: auto;
 }
 
@@ -43,3 +44,4 @@ input{
     height: 2vh;
     padding: 1vh;
 }
+

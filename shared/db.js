@@ -56,29 +56,6 @@ function insert(payload){
 }
 module.exports.insert = insert;
 
-function select(firstname){
-    return new Promise((resolve,reject) => {
-        const sql = 'SELECT * FROM [users].[user] where firstname = @firstname'
-        const request = new Request(sql, (err,rowcount) => {
-        if(err){
-            reject(err)
-            console.log(err)
-        } else if (rowcount == 0) {
-            reject({message: 'User does not exist'})
-        }
-    });
-    request.addParameter('firstname', TYPES.VarChar, firstname)
-
-    request.on('row',(colums) => {
-        resolve(colums)
-    })
-    connection.execSql(request)  
-    })
-
-}
-
-module.exports.select = select;
-
 function select_email(email,hashed_password){
     return new Promise((resolve,reject) => {
         const sql = 'SELECT * FROM [users].[user] where email = @email AND hashed_password = @hashed_password'
@@ -102,3 +79,27 @@ function select_email(email,hashed_password){
 }
 
 module.exports.select_email = select_email;
+
+function select_admin_email(email,hashed_password){
+    return new Promise((resolve,reject) => {
+        const sql = 'SELECT * FROM [users].[admin] where email = @email AND hashed_password = @hashed_password'
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            reject({message: 'User does not exist'})
+        }
+    });
+    request.addParameter('email', TYPES.VarChar, email)
+    request.addParameter('hashed_password', TYPES.VarChar, hashed_password)
+
+    request.on('row',(colums) => {
+        resolve(colums)
+    })
+    connection.execSql(request)  
+    })
+
+}
+
+module.exports.select_admin_email = select_admin_email;

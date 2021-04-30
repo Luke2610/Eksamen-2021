@@ -28,7 +28,7 @@ async function get(context,req){
     try{
         let email = req.query.email;
         let hashed_password = req.query.hashed_password;
-        let user = await db.select_email(email,hashed_password)
+        let user = await db.select_admin_email(email,hashed_password)
         context.res = {
             body: user
         }
