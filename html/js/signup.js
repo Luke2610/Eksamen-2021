@@ -5,11 +5,19 @@ form.addEventListener('submit',function(e){
 
     var firstname = document.getElementById("firstname").value
     var lastname = document.getElementById("lastname").value
-    var gender = document.getElementById("gender").value
+    if(document.getElementById("male").checked) {   
+        var gender = "male";  
+    } else if (document.getElementById("female").checked){
+         var gender = "female"
+        }
     var birthdate = document.getElementById("birthdate").value
     var country = document.getElementById("country").value
     var city = document.getElementById("city").value
-    var interestedInGender = document.getElementById("interestedInGender").value
+    if(document.getElementById("interestedInGenderMale").checked) {   
+        var interestedInGender = "male";  
+    } else if (document.getElementById("interestedInGenderFemale").checked){
+         var interestedInGender = "female"
+        }
     var maxAge = document.getElementById("maxAge").value
     var minAge = document.getElementById("minAge").value
     var biography = document.getElementById("biography").value
