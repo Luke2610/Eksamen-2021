@@ -32,6 +32,7 @@ async function get(context,req){
         context.res = {
             body: user
         }
+
     } catch(error) {
         context.res = {
             status: 400,

@@ -13,7 +13,10 @@ loginButton.addEventListener("click",function(){
                 }
 
                 response.json().then(function(data){
-                    console.log(data);
+                    document.getElementById('name').innerHTML = "Full name: " + data[1].value + " " + data[2].value;
+                    document.getElementById('gender').innerHTML = "Gender: " + data[3].value;
+
+                    //console.log(data[1]);
                 })
             }
         )
