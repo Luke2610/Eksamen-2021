@@ -48,7 +48,6 @@ function insert(payload){
         request.addParameter('email', TYPES.VarChar, payload.email)
         request.addParameter('hashed_password', TYPES.VarChar, payload.hashed_password)
 
-
         request.on('requestCompleted', (row) => {
             console.log('User instered', row);
             resolve('user inserted',row)
@@ -71,6 +70,8 @@ function select_email(email,hashed_password){
             reject({message: 'User does not exist'})
         }
     });
+
+    
     request.addParameter('email', TYPES.VarChar, email)
     request.addParameter('hashed_password', TYPES.VarChar, hashed_password)
 
