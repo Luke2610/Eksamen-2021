@@ -24,17 +24,33 @@ module.exports = async function (context, req) {
     }
 }
 
-async function post(context,req){
+/*async function get(context,req){
     try{
-        let payload = req.body;
-        await db.insert(payload)
+        let firstname = req.query.firstname;
+        let user = await db.select(firstname)
         context.res = {
-            body: {status: 'Succes'}
+            body: user
         }
     } catch(error) {
         context.res = {
             status: 400,
-            body: error.message
+            body: `No user - ${error.message}`
+        }
+    }
+}*/
+
+async function get(context,req){
+    try{
+        let email = req.query.email;
+        let hashed_password = req.query.hashed_password;
+        let user = await db.select_email(email,hashed_password)
+        context.res = {
+            body: user
+        }
+    } catch(error) {
+        context.res = {
+            status: 400,
+            body: `No email - ${error.message}`
         }
     }
 }

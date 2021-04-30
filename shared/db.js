@@ -79,9 +79,9 @@ function select(firstname){
 
 module.exports.select = select;
 
-/*function select(email){
+function select_email(email,hashed_password){
     return new Promise((resolve,reject) => {
-        const sql = 'SELECT * FROM [users].[user] where email = @email'
+        const sql = 'SELECT * FROM [users].[user] where email = @email AND hashed_password = @hashed_password'
         const request = new Request(sql, (err,rowcount) => {
         if(err){
             reject(err)
@@ -91,6 +91,7 @@ module.exports.select = select;
         }
     });
     request.addParameter('email', TYPES.VarChar, email)
+    request.addParameter('hashed_password', TYPES.VarChar, hashed_password)
 
     request.on('row',(colums) => {
         resolve(colums)
@@ -98,4 +99,6 @@ module.exports.select = select;
     connection.execSql(request)  
     })
 
-}*/
+}
+
+module.exports.select_email = select_email;
