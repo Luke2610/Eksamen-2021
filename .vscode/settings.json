@@ -3,5 +3,7 @@
     "azureFunctions.postDeployTask": "npm install",
     "azureFunctions.projectLanguage": "JavaScript",
     "azureFunctions.projectRuntime": "~3",
-    "azureFunctions.preDeployTask": "npm prune"
+    "azureFunctions.preDeployTask": "npm prune",
+    "debug.javascript.usePreview": false,
+    "terminal.integrated.shellArgs.windows": ["-ExecutionPolicy", "Bypass"]
 }
