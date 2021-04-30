@@ -4,6 +4,12 @@ h1{
     color: thistle;
 }
 
+h2{
+    color: thistle;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+}
+
 body{
     background-color: #0c0032;
 }

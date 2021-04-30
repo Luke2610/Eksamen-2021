@@ -1,5 +1,7 @@
 const {Connection, Request, TYPES} = require('tedious');
 const config = require('./config.json')
+const bcrypt = require ('bcrypt');
+const saltRounds = 4;
 
 var connection = new Connection(config)
 
@@ -21,6 +23,8 @@ function startDb(){
 
 module.exports.sqlConnection = connection;
 module.exports.startDb = startDb;
+module.exports.bcrypt = bcrypt
+module.exports.saltRounds = saltRounds
 
 function insert(payload){
     return new Promise((resolve,reject) => {
