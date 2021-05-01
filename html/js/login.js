@@ -15,8 +15,8 @@ loginButton.addEventListener("click",function(){
                 response.json().then(function(data){
                     document.getElementById('name').innerHTML = "Full name: " + data[1].value + " " + data[2].value;
                     document.getElementById('gender').innerHTML = "Gender: " + data[3].value;
-
-                    //console.log(data[1]);
+                    document.getElementById('birthdate').innerHTML = "Birthdate: " + data[4].value;
+                    console.log(data);
                 })
             }
         )
@@ -24,3 +24,5 @@ loginButton.addEventListener("click",function(){
             console.log(err)
         })
 })
+
+//LÆS OP PÅ SESSION
