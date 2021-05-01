@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DatingWeb</title>
+        <link rel="stylesheet" href="style/styles.css">
+    </head>
+    <body>
+        <header>
+            <h1>Rediger profil</h1>
+        </header>
+       
+    
+        <div>
+            <form action="/api/updateprofil" method="POST">
+                <div>
+                    Brugernavn
+                    <input name="updateFirstName" id="updateFirstName" type="text" required>
+                </div>
+                <div>
+                    Efternavn
+                    <input name="updateLastName" id="updateLastName" type="text">
+                </div>
+                <div>
+                    Password
+                    <input name="updatePwd" id="updatePwd" type="password">
+                </div>
+                <div>
+                    Gentag password
+                    <input name="updatePwdRepet" id="updatePwdRepet" type="password">
+                </div>
+                <div>
+                    <label for="picture">Billede</label>
+                        <form action="/action_page.php">
+                        <input type="file" id="myFile" name="filename" accept="image/*" required>
+                    </form>
+                </div>
+<br> <br>
+                <div id="buttons">
+                    <a href="profil.html"><button> Gem</button></a>
+                    <button type="reset">Slet profil</button>
+                </div>
+            </form>
+        </div>
+        
+    </body>
+</html>

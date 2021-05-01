@@ -17,6 +17,7 @@ loginButton.addEventListener("click",function(){
                     document.getElementById('gender').innerHTML = "Gender: " + data[3].value;
                     document.getElementById('birthdate').innerHTML = "Birthdate: " + data[4].value;
                     console.log(data);
+                    localStorage.setItem("user",data)
                 })
             }
         )
