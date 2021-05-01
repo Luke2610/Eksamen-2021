@@ -4,7 +4,7 @@ loginButton.addEventListener("click",function(){
     var email = document.getElementById("email").value
     var hashed_password = document.getElementById("password").value
     console.log(email,hashed_password)
-    fetch(`http://localhost:7071/api/post_User?email=${email}&hashed_password=${hashed_password}`)
+    fetch(`http://localhost:7071/api/get_User?email=${email}&hashed_password=${hashed_password}`)
         .then(
             function(response){
                 if (response.status !== 200){
