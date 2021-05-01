@@ -103,7 +103,7 @@ function select_admin_email(email,hashed_password){
         resolve(colums)
     })
     connection.execSql(request)  
-    })
+    }) 
 
 }
 
