@@ -5,11 +5,7 @@ window.onload = function(){
     }
 }
 
-function deleteLocal(){
-    localStorage.clear()
-}
-
 function profile(){
-    window.location.replace("./profil.html")
+    window.location.href("./profil.html")
     console.log("Press")
 }
