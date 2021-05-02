@@ -1,11 +1,20 @@
-window.onload = function(){
-    document.getElementById('name').innerHTML += localStorage.getItem("firstname") + " " + localStorage.getItem("lastname")
-    if (localStorage.getItem("email") === null) {
-        window.location.replace("./homepage.html")
+window.onload = function() {
+    if(readCookie("email") === null){
+    window.location.replace("./homepage.html") 
     }
+
+    var name = readCookie("firstname") + " " + readCookie("lastname")
+
+    document.getElementById("name").innerHTML += name;
 }
 
-function profile(){
-    window.location.href("./profil.html")
-    console.log("Press")
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
 }
