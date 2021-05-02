@@ -4,7 +4,7 @@ h1{
     color: thistle;
 }
 
-h2{
+h2, h3{
     color: thistle;
     font-family: 'Courier New', Courier, monospace;
     text-align: center;
