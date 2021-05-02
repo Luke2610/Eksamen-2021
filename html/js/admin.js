@@ -1,5 +1,5 @@
 var adminButton = document.getElementById("adminButton")
-
+// Admin button event listener med sql query for admin data
 adminButton.addEventListener("click",function(){
     var email = document.getElementById("email").value
     var hashed_password = document.getElementById("password").value
@@ -14,6 +14,8 @@ adminButton.addEventListener("click",function(){
 
                 response.json().then(function(data){
                     console.log(data);
+
+                window.location.replace("./adminpage.html") 
                 })
             }
         )
