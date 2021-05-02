@@ -40,3 +40,7 @@ loginButton.addEventListener("click",function(){
 })
 
 //LÆS OP PÅ SESSION
+
+if(localStorage.getItem("email") != null){
+    window.location.replace("./likeside.html")
+}
