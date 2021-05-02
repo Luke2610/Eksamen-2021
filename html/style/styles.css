@@ -10,6 +10,11 @@ h2{
     text-align: center;
 }
 
+header{
+    color: thistle;
+    font-family: 'Courier New', Courier, monospace;
+}
+
 body{
     background-color: #0c0032;
 }
@@ -51,3 +56,7 @@ input{
     padding: 1vh;
 }
 
+div{
+    color: thistle;
+    font-family: 'Courier New', Courier, monospace;
+}
