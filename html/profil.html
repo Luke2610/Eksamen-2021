@@ -11,11 +11,8 @@
         <header>
             <h1>Profil</h1>
         </header>
-        <div>
-            Navn:
-        </div>
-        <div>
-            Alder: 
+        <div id="profile"> 
+            <h2>Name: </h2> <h2 id="firstname"></h2>
         </div>
         <br>
         <div id="buttons">
@@ -26,8 +23,10 @@
    <br> <br>
         
         <div class="logoutContainer">
-                <button type="submit">LOG UD</button>
+            <form action="">
+                <button type="button" name="button" id="logOut" onclick="deleteLocal()">LOG UD</button>
             </form>
         </div>
+        <script src="js/profile.js"></script>
     </body>
 </html>
