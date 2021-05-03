@@ -1,5 +1,5 @@
 const db = require('../shared/db')
-/* Establishing a connection to th database */
+/* Azure function for "adminpage" */
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
@@ -18,23 +18,8 @@ module.exports = async function (context, req) {
             break;
         default:
             context.res ={
-                body: "Please get or post"
+                body: "no user details"
             };
             break
-    }
-}
-
-async function post(context,req){
-    try{
-        let payload = req.body;
-        await db.insert(payload)
-        context.res = {
-            body: {status: 'Succes'}
-        }
-    } catch(error) {
-        context.res = {
-            status: 400,
-            body: error.message
-        }
     }
 }

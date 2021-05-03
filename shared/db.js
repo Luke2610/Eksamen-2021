@@ -5,6 +5,7 @@ const saltRounds = 4;
 
 var connection = new Connection(config)
 
+/* Start db function */
 function startDb(){
     return new Promise((resolve,reject) => {
         connection.on('connect',(err) => {
@@ -26,6 +27,7 @@ module.exports.startDb = startDb;
 module.exports.bcrypt = bcrypt
 module.exports.saltRounds = saltRounds
 
+/* Function for user registration */
 function insert(payload){
     return new Promise((resolve,reject) => {
         const sql = `INSERT INTO [users].[user] (firstname, lastname, gender, birthdate, country, city, interestedInGender, maxAge, minAge, biography, email, hashed_password) VALUES (@firstname, @lastname, @gender, @birthdate, @country, @city, @interestedInGender, @maxAge, @minAge, @biography, @email, @hashed_password)`
@@ -59,6 +61,7 @@ function insert(payload){
 }
 module.exports.insert = insert;
 
+/* Function for user login */
 function select_email(email,hashed_password){
     return new Promise((resolve,reject) => {
         const sql = 'SELECT * FROM [users].[user] where email = @email AND hashed_password = @hashed_password'
@@ -85,6 +88,7 @@ function select_email(email,hashed_password){
 
 module.exports.select_email = select_email;
 
+/* Function for admin login */
 function select_admin_email(email,hashed_password){
     return new Promise((resolve,reject) => {
         const sql = 'SELECT * FROM [users].[admin] where email = @email AND hashed_password = @hashed_password'
@@ -109,6 +113,7 @@ function select_admin_email(email,hashed_password){
 
 module.exports.select_admin_email = select_admin_email;
 
+/* Select users for like function */
 function select_other_users(user_id,gender,interestedInGender){
     return new Promise((resolve,reject) => {
         if(gender == interestedInGender){
@@ -144,6 +149,7 @@ function select_other_users(user_id,gender,interestedInGender){
 
 module.exports.select_other_users = select_other_users;
 
+/* Like function */
 function insert_like(payload){
     return new Promise((resolve,reject) => {
         const sql = `INSERT INTO [users].[like] (user_id_1,user_id_2) VALUES (@user_id,@liked_user_id)`
@@ -166,3 +172,8 @@ function insert_like(payload){
 }
 
 module.exports.insert_like = insert_like
+
+/* Function for get all users to admin */
+function getallusers(){
+
+}
