@@ -9,9 +9,11 @@ window.onload = function() {
     
     var user_id = readCookie("user_id")
     var gender = readCookie("gender")
+    var maxAge = readCookie("maxAge")
+    var minAge = readCookie("minAge")
     var interestedInGender = readCookie("interestedInGender")
-    console.log(gender)
-    fetch(`http://localhost:7071/api/get_other_users?user_id=${user_id}&gender=${gender}&interestedInGender=${interestedInGender}`)
+
+    fetch(`http://localhost:7071/api/get_other_users?user_id=${user_id}&gender=${gender}&interestedInGender=${interestedInGender}&maxAge=${maxAge}&minAge=${minAge}`)
         .then(
             function(response){
                 if (response.status !== 200){
@@ -27,7 +29,7 @@ window.onload = function() {
                     div.innerHTML =`
                     <p> Name: ${data[1].value} ${data[2].value} </p>
                     <p> Gender: ${data[3].value} </p>
-                    <p> Birthdate: ${data[4].value} </p>
+                    <p> Age: ${data[14].value} </p>
                     <p> City: ${data[6].value} </p>
                     <p> Biography: ${data[10].value} <br> <br>
                     <button onclick="like(${data[0].value})"> Like </button> <button> Dislike </button>

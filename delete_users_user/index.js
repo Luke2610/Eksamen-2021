@@ -16,6 +16,9 @@ module.exports = async function (context, req) {
         case 'POST':
             await post(context,req);
             break;
+        case 'DELETE':
+            await delete(context,req);
+            break;
         default:
             context.res ={
                 body: "Please get or post"
@@ -26,20 +29,16 @@ module.exports = async function (context, req) {
 
 async function get(context,req){
     try{
-        let user_id = req.query.user_id
-        let gender = req.query.gender;
-        let interestedInGender = req.query.interestedInGender
-        let minAge = req.query.minAge
-        let maxAge = req.query.maxAge
+        let user_id = req.query.user_id;
 
-        let user = await db.select_other_users(user_id,gender,interestedInGender,minAge,maxAge)
+        let user = await db.delete_users_user(user_id)
         context.res = {
             body: user
         }
     } catch(error) {
         context.res = {
             status: 400,
-            body: `No users with that gender - ${error.message}`
+            body: `Did not delete - ${error.message}`
         }
     }
 }

@@ -109,12 +109,12 @@ function select_admin_email(email,hashed_password){
 
 module.exports.select_admin_email = select_admin_email;
 
-function select_other_users(user_id,gender,interestedInGender){
+function select_other_users(user_id,gender,interestedInGender,minAge,maxAge){
     return new Promise((resolve,reject) => {
         if(gender == interestedInGender){
-            var sql = 'SELECT * FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @interestedInGender'
+            var sql = 'SELECT *, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @interestedInGender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge'
         } else {
-             var sql = 'SELECT * FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @gender'
+             var sql = 'SELECT *, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @gender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge'
         }
         
         const request = new Request(sql, (err,rowcount) => {
@@ -131,6 +131,8 @@ function select_other_users(user_id,gender,interestedInGender){
     request.addParameter('user_id', TYPES.Int, user_id)
     request.addParameter('gender', TYPES.VarChar, gender)
     request.addParameter('interestedInGender', TYPES.VarChar, interestedInGender)
+    request.addParameter('minAge', TYPES.Int, minAge)
+    request.addParameter('maxAge', TYPES.Int, maxAge)
 
     request.on('row',(columns) => {
         /*columns.forEach(column => {
@@ -166,3 +168,53 @@ function insert_like(payload){
 }
 
 module.exports.insert_like = insert_like
+
+
+function delete_users_like(user_id){
+
+    return new Promise((resolve,reject) => {
+        const sql = 'DELETE FROM [users].[like] where user_id_1 = @user_id'
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            reject({message: 'User does not exist'})
+        }
+    });
+        
+    request.addParameter('user_id', TYPES.Int, user_id)
+
+    request.on('done',(colums) => {
+        resolve(colums)
+    })
+    connection.execSql(request)  
+    }) 
+}
+
+module.exports.delete_users_like = delete_users_like
+
+
+function delete_users_user(user_id){
+
+    return new Promise((resolve,reject) => {
+        const sql = 'DELETE FROM [users].[user] where user_id = @user_id'
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            reject({message: 'User does not exist'})
+        }
+    });
+        
+    request.addParameter('user_id', TYPES.Int, user_id)
+
+    request.on('done',(colums) => {
+        resolve(colums)
+    })
+    connection.execSql(request)  
+    }) 
+}
+
+module.exports.delete_users_user = delete_users_user

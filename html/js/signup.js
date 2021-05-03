@@ -46,10 +46,10 @@ form.addEventListener('submit',function(e){
     })
     .then((response) => {
         return response.json()
-        
     })
     .then((data) => {
         console.log(data)
+        window.location.replace("./login.html")
     })
     .catch((err) => {
         console.log(err)
