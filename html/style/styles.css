@@ -1,6 +1,6 @@
 h1{
     font-family: 'Courier New', Courier, monospace;
-    font-size: 60;
+    font-size: 60px;
     color: thistle;
 }
 
@@ -8,6 +8,7 @@ h2, h3{
     color: thistle;
     font-family: 'Courier New', Courier, monospace;
     text-align: center;
+    font-size: 30px;
 }
 
 header{
@@ -20,18 +21,13 @@ body{
 }
 
 button{
-    background-color: #190061;
+    background-color: #610000;
     color: white;
     width: 11%;
     padding: 1%;
     font-family:'Courier New', Courier, monospace;
     font-size:60;
     margin: auto;
-}
-
-#buttons{
-    width: auto;
-    text-align:center;
 }
 
 header{
@@ -59,4 +55,24 @@ input{
 div{
     color: thistle;
     font-family: 'Courier New', Courier, monospace;
+}
+
+.menu{
+    text-align: center;
+    align-items: center;
+    width: auto;
+    margin: auto;
+    height: auto;
+}
+
+.likes{
+    text-align: center;
+    align-items: center;
+    width: auto;
+    margin: auto;
+}
+
+.User{
+    background-color: teal;
+    width: 30%;
 }
