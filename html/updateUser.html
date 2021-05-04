@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DatingWeb</title>
+        <link rel="stylesheet" href="style/styles.css">
+    </head>
+    <body>
+        <header>
+            <h1>Rediger profil</h1>
+        </header>
+       <div class="updateUser">
+           <form id="updateUser">
+            <input type="text" id="firstname" placeholder="Firstname"/><br>
+            <input type="text" id="lastname" placeholder="Lastname"/><br>
+            <p>Gender</p>
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label><br><br>
+            <input type="date" id="birthdate" placeholder="Birthdate"/><br>
+            <input type="text" id="country" placeholder="Country"/><br>
+            <input type="text" id="city" placeholder="City"/><br>
+            <p>Interested in</p>
+            <input type="radio" id="interestedInGenderMale" name="interestedInGender" value="male">
+            <label for="male">Male</label>
+            <input type="radio" id="interestedInGenderFemale" name="interestedInGender" value="female">
+            <label for="female">Female</label><br><br>
+            <input type="number" id="maxAge" placeholder="Maximum Age"/><br>
+            <input type="number" id="minAge" placeholder="Minimum Age"/><br>
+            <input type="text" id="biography" placeholder="A short desciption of yourself!"/><br>
+            <input type="email" id="email" placeholder="Email@email.com"/><br>
+            <input type="password" placeholder="hashed_password" id="hashed_password"><br><br>
+            <button type="submit" name="Update">Update</button> <br><br>
+           </form>
+
+       </div>
+        <div class="menu">
+            <a href="profil.html"><button>Tilbage</button></a>
+            <button onclick="deleteUser()">Slet profil</button>
+        </div>
+            
+        <script src="js/settings.js"></script>
+    </body>
+</html>
