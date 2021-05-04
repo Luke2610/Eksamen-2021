@@ -16,29 +16,25 @@ module.exports = async function (context, req) {
         case 'POST':
             await post(context,req);
             break;
-        case 'DELETE':
-            await delete(context,req);
-            break;
         default:
             context.res ={
-                body: "Please get, delete or post"
+                body: "Please get or post"
             };
             break
     }
 }
 
-async function get(context,req){
+async function post(context,req){
     try{
-        let user_id = req.query.user_id;
-
-        let user = await db.delete_users_user(user_id)
+        let payload = req.body;
+        await db.insert_dislike(payload)
         context.res = {
-            body: user
+            body: {status: 'Succes'}
         }
     } catch(error) {
         context.res = {
             status: 400,
-            body: `Did not delete - ${error.message}`
+            body: error.message
         }
     }
 }

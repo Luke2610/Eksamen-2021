@@ -22,19 +22,37 @@ window.onload = function() {
                 }
 
                 response.json().then(function(data){
-                    console.log(data)
-                    const div = document.createElement("div")
+                    console.log(data.length)
+                    for(i=0;i<data.length;i++){
+                        var deta = data[i]
+                        const div = document.createElement("div")
+                        div.className = 'User'
+        
+                        div.innerHTML =`
+                        <p> Name: ${deta[1].value} ${deta[2].value} </p>
+                        <p> Gender: ${deta[3].value} </p>
+                        <p> Age: ${deta[6].value} </p>
+                        <p> City: ${deta[4].value} </p>
+                        <p> Biography: ${deta[5].value} <br> <br>
+                        <button onclick="like(${deta[0].value})"> Like </button>
+                        <button onclick="dislike(${deta[0].value})"> Dislike </button>
+                        `;
+                        document.getElementById('likes').appendChild(div)
+                    }
+                    
+                    /* const div = document.createElement("div")
                     div.className = 'User'
     
                     div.innerHTML =`
-                    <p> Name: ${data[1].value} ${data[2].value} </p>
-                    <p> Gender: ${data[3].value} </p>
-                    <p> Age: ${data[14].value} </p>
-                    <p> City: ${data[6].value} </p>
-                    <p> Biography: ${data[10].value} <br> <br>
-                    <button onclick="like(${data[0].value})"> Like </button> <button> Dislike </button>
+                    <p> Name: ${data[0][1].value} ${data[0][2].value} </p>
+                    <p> Gender: ${data[0][3].value} </p>
+                    <p> Age: ${data[0][14].value} </p>
+                    <p> City: ${data[0][6].value} </p>
+                    <p> Biography: ${data[0][10].value} <br> <br>
+                    <button onclick="like(${data[0][0].value})"> Like </button>
+                    <button onclick="dislike(${data[0][0].value})"> Dislike </button>
                     `;
-                    document.getElementById('likes').appendChild(div)
+                    document.getElementById('likes').appendChild(div) */
                 })
             }
         )
@@ -74,6 +92,31 @@ function like(liked_user_id){
         body: JSON.stringify({
             user_id: user_id,
             liked_user_id: liked_user_id
+        }),
+        headers: {
+            "Content-Type": "application/json; charset-UTF-8"
+        }
+    })
+    .then((response) => {
+        return response.json()
+        
+    })
+    .then((data) => {
+        console.log(data)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+function dislike(disliked_user_id){
+    var user_id = readCookie("user_id")
+    
+    fetch("http://localhost:7071/api/store_dislike", {
+        method: 'POST',
+        body: JSON.stringify({
+            user_id: user_id,
+            disliked_user_id: disliked_user_id
         }),
         headers: {
             "Content-Type": "application/json; charset-UTF-8"
