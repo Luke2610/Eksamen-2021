@@ -15,9 +15,18 @@ window.onload = function ShowName() {
 
     var name = readCookie("firstname") + " " + readCookie("lastname")
     var gender = readCookie("gender")
-
+    var age = readCookie("age")
+    var ageDiff = readCookie ("minAge") + " & " + readCookie("maxAge") + " years old"
+    var city = readCookie("city")
+    var biography = readCookie("biography")
+    var interestedInGender = readCookie("interestedInGender")
     document.getElementById("name").innerHTML += name;
     document.getElementById("gender").innerHTML += gender;
+    document.getElementById("interestedInGender").innerHTML += interestedInGender
+    document.getElementById("age").innerHTML += age;
+    document.getElementById("ageDiff").innerHTML += ageDiff
+    document.getElementById("city").innerHTML += city;
+    document.getElementById("biography").innerHTML += biography;
 }
 
 //function that reads the stored cookies
