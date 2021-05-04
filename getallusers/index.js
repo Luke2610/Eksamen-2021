@@ -14,8 +14,8 @@ module.exports = async function (context, req) {
             await get(context,req);
             break;
         case 'POST':
-            await post(context,req);
-            break;
+                await post(context,req);
+                break;
         case 'DELETE':
                 await post(context,req);
                 break;

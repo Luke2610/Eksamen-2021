@@ -248,3 +248,41 @@ function delete_users_user(user_id){
 module.exports.delete_users_user = delete_users_user
 
 
+async function getallusers(user_id,firstname, lastname, gender, birthdate, country, city, minAge, maxAge, biography, email, hashed_password){
+    return new Promise((resolve,reject) => {
+        var result = []
+            var sql = 'SELECT user_id,firstname,lastname,gender,birthdate,country,city,minAge,maxAge,biography,email,hashed_password FROM [users].[user]'
+      
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            reject({message: 'Users does not exist'})
+        } else {
+            console.log(`${rowcount} All users returned`)
+            resolve(result)
+        }
+    });
+        request.addParameter('user_id', TYPES.Int, user_id)
+        request.addParameter('firstname', TYPES.VarChar, firstname)
+        request.addParameter('lastname', TYPES.VarChar, lastname)
+        request.addParameter('gender', TYPES.VarChar, gender)
+        request.addParameter('birthdate', TYPES.Int, birthdate)
+        request.addParameter('country', TYPES.VarChar, country)
+        request.addParameter('city', TYPES.VarChar, city)
+        request.addParameter('minAge', TYPES.Int, minAge)
+        request.addParameter('maxAge', TYPES.Int, maxAge)
+        request.addParameter('biography', TYPES.VarChar, biography)
+        request.addParameter('email', TYPES.VarChar, email)
+        request.addParameter('hashed_password', TYPES.VarChar, hashed_password)
+    
+            request.on('row',(columns) => {
+                result.push(columns)
+            })
+    
+        connection.execSql(request)  
+        })
+    
+    }
+module.exports.getallusers = getallusers 
