@@ -20,14 +20,14 @@ window.onload = function() {
                     console.log("Noget gik galt " + response.status)
                     return 
                 }
-
+                i = 0
                 response.json().then(function(data){
-                    console.log(data.length)
+
+                    
                     for(i=0;i<data.length;i++){
-                        var deta = data[i]
+                        deta = data[i]
                         const div = document.createElement("div")
                         div.className = 'User'
-        
                         div.innerHTML =`
                         <p> Name: ${deta[1].value} ${deta[2].value} </p>
                         <p> Gender: ${deta[3].value} </p>
@@ -39,20 +39,6 @@ window.onload = function() {
                         `;
                         document.getElementById('likes').appendChild(div)
                     }
-                    
-                    /* const div = document.createElement("div")
-                    div.className = 'User'
-    
-                    div.innerHTML =`
-                    <p> Name: ${data[0][1].value} ${data[0][2].value} </p>
-                    <p> Gender: ${data[0][3].value} </p>
-                    <p> Age: ${data[0][14].value} </p>
-                    <p> City: ${data[0][6].value} </p>
-                    <p> Biography: ${data[0][10].value} <br> <br>
-                    <button onclick="like(${data[0][0].value})"> Like </button>
-                    <button onclick="dislike(${data[0][0].value})"> Dislike </button>
-                    `;
-                    document.getElementById('likes').appendChild(div) */
                 })
             }
         )

@@ -64,7 +64,7 @@ module.exports.insert = insert;
 /* Function for user login */
 function select_email(email,hashed_password){
     return new Promise((resolve,reject) => {
-        const sql = 'SELECT * FROM [users].[user] where email = @email AND hashed_password = @hashed_password'
+        const sql = 'SELECT *, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age FROM [users].[user] where email = @email AND hashed_password = @hashed_password'
         const request = new Request(sql, (err,rowcount) => {
         if(err){
             reject(err)
@@ -119,7 +119,7 @@ async function select_other_users(user_id,gender,interestedInGender,minAge,maxAg
         if(gender == interestedInGender){
             var sql = 'SELECT user_id,firstname,lastname,gender,city,biography, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @interestedInGender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge'
         } else {
-             var sql = 'SELECT user_id,firstname,lastname,gender,city,biography, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @gender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge'
+             var sql = 'SELECT user_id,firstname,lastname,gender,city,biography, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age, l.user_id_1, l.user_id_2, d.user_id_1, d.user_id_2  FROM [users].[user] LEFT JOIN users.[like] l on [user].user_id = l.user_id_2 LEFT JOIN users.dislike d on [user].user_id = d.user_id_2 WHERE gender = @interestedInGender AND interestedInGender = @gender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge AND l.user_id_1 Is NULL and d.user_id_1 Is NULL'
         }
         
         const request = new Request(sql, (err,rowcount) => {
@@ -165,7 +165,7 @@ function insert_like(payload){
         request.addParameter('liked_user_id', TYPES.VarChar, payload.liked_user_id)
 
         request.on('requestCompleted', (row) => {
-            console.log('Like instered', row);
+            console.log('Like inserted', row);
             resolve('Like inserted',row)
         });
         connection.execSql(request);
@@ -188,7 +188,7 @@ function insert_dislike(payload){
         request.addParameter('disliked_user_id', TYPES.VarChar, payload.disliked_user_id)
 
         request.on('requestCompleted', (row) => {
-            console.log('Dislike instered', row);
+            console.log('Dislike inserted', row);
             resolve('Dislike inserted',row)
         });
         connection.execSql(request);
