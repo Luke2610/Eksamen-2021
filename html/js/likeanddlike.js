@@ -20,7 +20,7 @@ window.onload = async function onLoad(){
                         <p> Age: ${deta[4].value} </p>
                         <p> City: ${deta[5].value} </p>
                         <p> Biography: ${deta[6].value} <br> <br>
-                        <button onclick="like(${deta[0].value})"> Remove Like </button>
+                        <button onclick="delete_like(${deta[0].value})"> Remove Like </button>
                         `;
                         document.getElementById('Likes').appendChild(div)
                     }
@@ -50,7 +50,7 @@ window.onload = async function onLoad(){
                         <p> Age: ${deta[4].value} </p>
                         <p> City: ${deta[5].value} </p>
                         <p> Biography: ${deta[6].value} <br> <br>
-                        <button onclick="dislike(${deta[0].value})"> Remove Dislike </button>
+                        <button onclick="delete_dislike(${deta[0].value})"> Remove Dislike </button>
                         `;
                         document.getElementById('Dislikes').appendChild(div)
                     }
@@ -71,4 +71,46 @@ function readCookie(name) {
         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
     }
     return null;
+}
+
+function delete_like(delete_user_id){
+    var user_id = readCookie("user_id")
+
+    fetch(`http://localhost:7071/api/delete_like?user_id=${user_id}&delete_user_id=${delete_user_id}`)
+    .then(
+        function(response){
+            if (response.status !== 200){
+                console.log("Noget gik galt " + response.status)
+                return 
+            }
+
+            response.json().then(function(data){
+                return
+            })
+        }
+    )
+    .catch(function (err){
+        console.log(err)
+    })
+}
+
+function delete_dislike(delete_user_id){
+    var user_id = readCookie("user_id")
+    
+    fetch(`http://localhost:7071/api/delete_dislike?user_id=${user_id}&delete_user_id=${delete_user_id}`)
+    .then(
+        function(response){
+            if (response.status !== 200){
+                console.log("Noget gik galt " + response.status)
+                return 
+            }
+
+            response.json().then(function(data){
+                return
+            })
+        }
+    )
+    .catch(function (err){
+        console.log(err)
+    })
 }

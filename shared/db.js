@@ -284,6 +284,31 @@ function get_like(user_id){
 
 module.exports.get_like = get_like
 
+function delete_like(user_id,delete_user_id){
+    return new Promise((resolve,reject) => {
+        var sql = 'DELETE FROM [users].[like] WHERE user_id_1 = @user_id AND user_id_2 = @delete_user_id'
+    
+        const request = new Request(sql, (err,rowcount) => {
+            if(err){
+                reject(err)
+                console.log(err)
+            } else if (rowcount == 0) {
+                reject({message: 'User does not exist'})
+            }
+        });
+            
+        request.addParameter('user_id', TYPES.Int, user_id)
+        request.addParameter('delete_user_id', TYPES.Int, delete_user_id)
+    
+        request.on('done',(colums) => {
+            resolve(colums)
+        })
+        connection.execSql(request) 
+    })
+}
+
+module.exports.delete_like = delete_like
+
 function get_dislike(user_id){
     return new Promise((resolve,reject) => {
         var result = []
@@ -313,3 +338,28 @@ function get_dislike(user_id){
 }
 
 module.exports.get_dislike = get_dislike
+
+function delete_dislike(user_id,delete_user_id){
+    return new Promise((resolve,reject) => {
+        var sql = 'DELETE FROM [users].[dislike] WHERE user_id_1 = @user_id AND user_id_2 = @delete_user_id'
+    
+        const request = new Request(sql, (err,rowcount) => {
+            if(err){
+                reject(err)
+                console.log(err)
+            } else if (rowcount == 0) {
+                reject({message: 'User does not exist'})
+            }
+        });
+            
+        request.addParameter('user_id', TYPES.Int, user_id)
+        request.addParameter('delete_user_id', TYPES.Int, delete_user_id)
+    
+        request.on('done',(colums) => {
+            resolve(colums)
+        })
+        connection.execSql(request) 
+    })
+}
+
+module.exports.delete_dislike = delete_dislike
