@@ -73,7 +73,7 @@ function deleteLocal(){
 function like(liked_user_id){
     var user_id = readCookie("user_id")
 
-    fetch("http://localhost:7071/api/store_like", {
+    fetch("http://localhost:7071/api/post_like", {
         method: 'POST',
         body: JSON.stringify({
             user_id: user_id,
@@ -98,7 +98,7 @@ function like(liked_user_id){
 function dislike(disliked_user_id){
     var user_id = readCookie("user_id")
     
-    fetch("http://localhost:7071/api/store_dislike", {
+    fetch("http://localhost:7071/api/post_dislike", {
         method: 'POST',
         body: JSON.stringify({
             user_id: user_id,

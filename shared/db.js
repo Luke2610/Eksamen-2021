@@ -113,6 +113,7 @@ function select_admin_email(email,hashed_password){
 
 module.exports.select_admin_email = select_admin_email;
 
+//function that gets all users with filters
 async function select_other_users(user_id,gender,interestedInGender,minAge,maxAge){
     return new Promise((resolve,reject) => {
         var result = []
@@ -175,6 +176,7 @@ function insert_like(payload){
 
 module.exports.insert_like = insert_like
 
+//dislike function
 function insert_dislike(payload){
     return new Promise((resolve,reject) => {
         const sql = `INSERT INTO [users].[dislike] (user_id_1,user_id_2) VALUES (@user_id,@disliked_user_id)`
@@ -198,6 +200,7 @@ function insert_dislike(payload){
 
 module.exports.insert_dislike = insert_dislike
 
+//function that deletes user likes
 function delete_users_like(user_id){
 
     return new Promise((resolve,reject) => {
@@ -222,7 +225,7 @@ function delete_users_like(user_id){
 
 module.exports.delete_users_like = delete_users_like
 
-
+//function delete user from database
 function delete_users_user(user_id){
 
     return new Promise((resolve,reject) => {
@@ -251,3 +254,62 @@ module.exports.delete_users_user = delete_users_user
 function getallusers(){
 
 }
+
+function get_like(user_id){
+    return new Promise((resolve,reject) => {
+        var result = []
+        var sql = 'SELECT u.user_id, u.firstname, u.lastname, u.gender, YEAR((CURRENT_TIMESTAMP)) - YEAR(u.birthdate) AS age, u.city, u.biography, id, user_id_2, user_id_1 FROM [users].[like] INNER JOIN [users].[user] u on u.user_id = [users].[like].user_id_2 WHERE user_id_1 = @user_id'
+    
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            reject({message: 'User has no likes'})
+        } else {
+            console.log(`${rowcount} row(s) returned`)
+            resolve(result)
+        }
+    });
+
+    request.addParameter('user_id', TYPES.Int, user_id)
+
+        request.on('row',(columns) => {
+            result.push(columns)
+        })
+
+    connection.execSql(request)  
+    })
+}
+
+module.exports.get_like = get_like
+
+function get_dislike(user_id){
+    return new Promise((resolve,reject) => {
+        var result = []
+        var sql = 'SELECT u.user_id, u.firstname, u.lastname, u.gender, YEAR((CURRENT_TIMESTAMP)) - YEAR(u.birthdate) AS age, u.city, u.biography, id, user_id_2, user_id_1 FROM [users].[dislike] INNER JOIN [users].[user] u on u.user_id = [users].[dislike].user_id_2 WHERE user_id_1 = @user_id'
+    
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            reject({message: 'User has no dislikes'})
+        } else {
+            console.log(`${rowcount} row(s) returned`)
+            resolve(result)
+            console.log(result)
+        }
+    });
+
+    request.addParameter('user_id', TYPES.Int, user_id)
+
+        request.on('row',(columns) => {
+            result.push(columns)
+        })
+
+    connection.execSql(request)  
+    })
+}
+
+module.exports.get_dislike = get_dislike

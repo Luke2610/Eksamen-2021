@@ -76,3 +76,18 @@ input{
     align-items: center;
     text-align: center;
 }
+
+#combined{
+    width: 100%;
+}
+
+#Likes{
+    width: 50%;
+    float: left;
+    border:solid green;
+}
+
+#Dislikes{
+    margin-left: 50%;
+    border:solid yellow;
+}
