@@ -113,12 +113,13 @@ function select_admin_email(email,hashed_password){
 
 module.exports.select_admin_email = select_admin_email;
 
-function select_other_users(user_id,gender,interestedInGender,minAge,maxAge){
+async function select_other_users(user_id,gender,interestedInGender,minAge,maxAge){
     return new Promise((resolve,reject) => {
+        var result = []
         if(gender == interestedInGender){
-            var sql = 'SELECT *, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @interestedInGender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge'
+            var sql = 'SELECT user_id,firstname,lastname,gender,city,biography, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @interestedInGender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge'
         } else {
-             var sql = 'SELECT *, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @gender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge'
+             var sql = 'SELECT user_id,firstname,lastname,gender,city,biography, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @gender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge'
         }
         
         const request = new Request(sql, (err,rowcount) => {
@@ -129,6 +130,7 @@ function select_other_users(user_id,gender,interestedInGender,minAge,maxAge){
             reject({message: 'Users does not exist'})
         } else {
             console.log(`${rowcount} row(s) returned`)
+            resolve(result)
         }
     });
 
@@ -138,14 +140,13 @@ function select_other_users(user_id,gender,interestedInGender,minAge,maxAge){
     request.addParameter('minAge', TYPES.Int, minAge)
     request.addParameter('maxAge', TYPES.Int, maxAge)
 
-    request.on('row',(columns) => {
-        /*columns.forEach(column => {
-            console.log("%s\t%s", column.metadata.colName, column.value)
-        })*/
-        resolve(columns)
-    })
+        request.on('row',(columns) => {
+            result.push(columns)
+        })
+
     connection.execSql(request)  
     })
+
 }
 
 module.exports.select_other_users = select_other_users;
@@ -174,6 +175,28 @@ function insert_like(payload){
 
 module.exports.insert_like = insert_like
 
+function insert_dislike(payload){
+    return new Promise((resolve,reject) => {
+        const sql = `INSERT INTO [users].[dislike] (user_id_1,user_id_2) VALUES (@user_id,@disliked_user_id)`
+        const request = new Request(sql, (err) => {
+            if (err){
+                reject(err)
+                console.log(err)
+            }
+        });
+        request.addParameter('user_id', TYPES.VarChar, payload.user_id)
+        request.addParameter('disliked_user_id', TYPES.VarChar, payload.disliked_user_id)
+
+        request.on('requestCompleted', (row) => {
+            console.log('Dislike instered', row);
+            resolve('Dislike inserted',row)
+        });
+        connection.execSql(request);
+
+    });
+}
+
+module.exports.insert_dislike = insert_dislike
 
 function delete_users_like(user_id){
 
