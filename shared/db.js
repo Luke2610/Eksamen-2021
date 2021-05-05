@@ -120,9 +120,8 @@ async function select_other_users(user_id,gender,interestedInGender,minAge,maxAg
         if(gender == interestedInGender){
             var sql = 'SELECT user_id,firstname,lastname,gender,city,biography, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @interestedInGender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge'
         } else {
-             var sql = 'SELECT user_id,firstname,lastname,gender,city,biography, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age, l.user_id_1, l.user_id_2, d.user_id_1, d.user_id_2  FROM [users].[user] LEFT JOIN users.[like] l on [user].user_id = l.user_id_2 LEFT JOIN users.dislike d on [user].user_id = d.user_id_2 WHERE gender = @interestedInGender AND interestedInGender = @gender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge AND l.user_id_1 Is NULL and d.user_id_1 Is NULL'
+             var sql = 'SELECT user_id,firstname,lastname,gender,city,biography, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age, l.user_id_1, l.user_id_2, d.user_id_1, d.user_id_2  FROM [users].[user] LEFT JOIN users.[like] l on [user].user_id = l.user_id_2 LEFT JOIN users.dislike d on [user].user_id = d.user_id_2 WHERE gender = @interestedInGender AND interestedInGender = @gender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge AND l.user_id_1 Is NULL AND d.user_id_1 Is NULL'
         }
-        
         const request = new Request(sql, (err,rowcount) => {
         if(err){
             reject(err)
@@ -200,17 +199,41 @@ function insert_dislike(payload){
 
 module.exports.insert_dislike = insert_dislike
 
-//function that deletes user likes
-function delete_users_like(user_id){
+function delete_users_dislike(user_id){
 
     return new Promise((resolve,reject) => {
-        const sql = 'DELETE FROM [users].[like] where user_id_1 = @user_id'
+        const sql = 'DELETE FROM [users].[dislike] WHERE user_id_1 = @user_id OR user_id_2 = @user_id'
         const request = new Request(sql, (err,rowcount) => {
         if(err){
             reject(err)
             console.log(err)
         } else if (rowcount == 0) {
-            reject({message: 'User does not exist'})
+            resolve("No one to delete")
+        }
+    });
+        
+    request.addParameter('user_id', TYPES.Int, user_id)
+
+    request.on('done',(colums) => {
+        resolve(colums)
+    })
+    connection.execSql(request)  
+    }) 
+}
+
+module.exports.delete_users_dislike = delete_users_dislike
+
+//function that deletes user likes
+function delete_users_like(user_id){
+
+    return new Promise((resolve,reject) => {
+        const sql = 'DELETE FROM [users].[like] WHERE user_id_1 = @user_id OR user_id_2 = @user_id'
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            resolve("No one to delete")
         }
     });
         
@@ -323,7 +346,6 @@ function get_dislike(user_id){
         } else {
             console.log(`${rowcount} row(s) returned`)
             resolve(result)
-            console.log(result)
         }
     });
 
@@ -363,3 +385,139 @@ function delete_dislike(user_id,delete_user_id){
 }
 
 module.exports.delete_dislike = delete_dislike
+
+function get_like_for_match(user_id){
+    return new Promise((resolve,reject) => {
+        var result = []
+        var sql = 'SELECT * FROM [users].[like] WHERE user_id_1 = @user_id'
+    
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            reject({message: 'User has no likes'})
+        } else {
+            console.log(`${rowcount} row(s) returned`)
+            resolve(result)
+        }
+    });
+
+    request.addParameter('user_id', TYPES.Int, user_id)
+
+        request.on('row',(columns) => {
+            result.push(columns)
+        })
+
+    connection.execSql(request)  
+    })
+}
+
+module.exports.get_like_for_match = get_like_for_match
+
+function get_like_for_like(user_id){
+    return new Promise((resolve,reject) => {
+        var result = []
+        var sql = 'SELECT * FROM [users].[like] l INNER JOIN [users].[like] m ON l.user_id_1 = m.user_id_2 WHERE l.user_id_2 = m.user_id_1 AND l.user_id_1 = @user_id'
+    
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            resolve(result)
+        } else {
+            console.log(`${rowcount} row(s) returned`)
+            resolve(result)
+        }
+    });
+
+    request.addParameter('user_id', TYPES.Int, user_id)
+
+        request.on('row',(columns) => {
+            result.push(columns)
+        })
+
+    connection.execSql(request)  
+    })
+}
+
+module.exports.get_like_for_like = get_like_for_like
+
+function create_match(like_id_1,like_id_2,user_id,other_user_id){
+    return new Promise((resolve,reject) => {
+        var sql = 'INSERT INTO [users].[matches] (user_id_1,user_id_2,like_id_1,like_id_2) VALUES(@user_id,@other_user_id,@like_id_1,@like_id_2)'
+    
+        const request = new Request(sql, (err) => {
+            if (err){
+                resolve("Match findes")
+            }
+        });
+        request.addParameter('user_id', TYPES.VarChar, user_id)
+        request.addParameter('other_user_id', TYPES.VarChar, other_user_id)
+        request.addParameter('like_id_2', TYPES.VarChar, like_id_2)
+        request.addParameter('like_id_1', TYPES.VarChar, like_id_1)
+
+        request.on('requestCompleted', (row) => {
+            console.log('Match inserted', row);
+            resolve('Match inserted',row)
+        });
+        connection.execSql(request);  
+    })
+}
+
+module.exports.create_match = create_match
+
+function get_match(user_id){
+    return new Promise((resolve,reject) => {
+        var result = []
+        var sql = 'SELECT user_id, firstname,lastname,gender, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age, city, biography FROM [users].[matches] INNER JOIN [users].[user] u on u.user_id = matches.user_id_2 WHERE user_id_1 = @user_id'
+    
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            resolve(result)
+        } else {
+            console.log(`${rowcount} row(s) returned`)
+            resolve(result)
+        }
+    });
+
+    request.addParameter('user_id', TYPES.Int, user_id)
+
+        request.on('row',(columns) => {
+            result.push(columns)
+        })
+
+    connection.execSql(request)  
+    })
+}
+
+module.exports.get_match = get_match
+
+function delete_match(user_id,delete_user_id){
+    return new Promise((resolve,reject) => {
+        var sql = 'DELETE FROM [users].[matches] WHERE user_id_1 = @user_id AND user_id_2 = @delete_user_id'
+
+        const request = new Request(sql, (err,rowcount) => {
+            if(err){
+                reject(err)
+                console.log(err)
+            } else if (rowcount == 0) {
+                resolve("no matches")
+            }
+        });
+            
+        request.addParameter('user_id', TYPES.Int,   user_id)
+        request.addParameter('delete_user_id', TYPES.Int, delete_user_id)
+    
+        request.on('done',(colums) => {
+            resolve(colums)
+        })
+        connection.execSql(request) 
+    })
+}
+
+module.exports.delete_match = delete_match

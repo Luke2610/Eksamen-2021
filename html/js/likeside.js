@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = async function() {
     if(readCookie("email") === null){
     window.location.replace("./homepage.html") 
     }
@@ -13,7 +13,31 @@ window.onload = function() {
     var minAge = readCookie("minAge")
     var interestedInGender = readCookie("interestedInGender")
 
-    fetch(`http://localhost:7071/api/get_other_users?user_id=${user_id}&gender=${gender}&interestedInGender=${interestedInGender}&maxAge=${maxAge}&minAge=${minAge}`)
+    await fetch(`http://localhost:7071/api/match_notification?user_id=${user_id}`)
+        .then(
+            function(response){
+                if (response.status !== 200){
+                    console.log("Noget gik galt " + response.status)
+                    return 
+                }
+                i = 0
+                response.json().then(function(data){
+                    console.log(data.length)
+                    match = " match"
+                    if (data.length > 1){
+                        match = " matches"
+                    }
+                    document.getElementById("matches").innerHTML += data.length + match
+                    
+                })
+            }
+        )
+        .catch(function (err){
+            console.log(err)
+        })
+
+
+    await fetch(`http://localhost:7071/api/get_other_users?user_id=${user_id}&gender=${gender}&interestedInGender=${interestedInGender}&maxAge=${maxAge}&minAge=${minAge}`)
         .then(
             function(response){
                 if (response.status !== 200){
