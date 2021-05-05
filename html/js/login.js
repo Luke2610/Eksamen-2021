@@ -26,6 +26,7 @@ loginButton.addEventListener("click",function(){
                     document.cookie = "minAge=" + data[9].value;
                     document.cookie = "biography=" + data[10].value;
                     document.cookie = "email=" + data[11].value;
+                    document.cookie = "hashed_password=" + data[12].value
                     document.cookie = "age=" + data[14].value
                 })
             }

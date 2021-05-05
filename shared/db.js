@@ -521,3 +521,38 @@ function delete_match(user_id,delete_user_id){
 }
 
 module.exports.delete_match = delete_match
+
+function update_user(payload){
+    return new Promise((resolve,reject) => {
+        const sql = `UPDATE [users].[user] SET firstname = @firstname, lastname = @lastname, gender = @gender, birthdate = @birthdate, country = @country, city = @city, interestedInGender = @interestedInGender, maxAge = @maxAge, minAge = @minAge, biography = @biography, email = @email, hashed_password = @hashed_password WHERE user_id = @user_id`
+        const request = new Request(sql, (err) => {
+            if (err){
+                reject(err)
+                console.log(err)
+            }
+        });
+        request.addParameter('user_id', TYPES.VarChar, payload.user_id)
+        request.addParameter('firstname', TYPES.VarChar, payload.firstname)
+        request.addParameter('lastname', TYPES.VarChar, payload.lastname)
+        request.addParameter('gender', TYPES.VarChar, payload.gender)
+        request.addParameter('birthdate', TYPES.Date, payload.birthdate)
+        request.addParameter('country', TYPES.VarChar, payload.country)
+        request.addParameter('city', TYPES.VarChar, payload.city)
+        request.addParameter('interestedInGender', TYPES.VarChar, payload.interestedInGender)
+        request.addParameter('maxAge', TYPES.Int, payload.maxAge)
+        request.addParameter('minAge', TYPES.Int, payload.minAge)
+        request.addParameter('biography', TYPES.VarChar, payload.biography)
+        request.addParameter('email', TYPES.VarChar, payload.email)
+        request.addParameter('hashed_password', TYPES.VarChar, payload.hashed_password)
+
+        request.on('requestCompleted', (row) => {
+            console.log('User updated', row);
+            resolve('user updated',row)
+        });
+        connection.execSql(request);
+
+    });
+
+}
+
+module.exports.update_user = update_user
