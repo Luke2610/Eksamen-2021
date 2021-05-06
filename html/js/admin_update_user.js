@@ -92,6 +92,7 @@ form.addEventListener('submit',function(e){
         return response.json()
     })
     .then((data) => {
+        document.getElementById("succes").innerHTML = "User updated succesfully"
         console.log(data)
     })
     .catch((err) => {
