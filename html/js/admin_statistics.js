@@ -6,6 +6,7 @@ window.onload = async function(){
                     console.log("Something went wrong " + response.status)
                     return 
                 }
+
                 //Inner html that loops through the data, displaying all users
                 response.json().then(function(data){
                     for(i=0;i<data.length;i++){
@@ -26,8 +27,9 @@ window.onload = async function(){
                         <p> Email: ${deta[11].value} </p>
                         <p> Password: ${deta[12].value} </p>
                         <p> Created at: ${new Date(deta[13].value)} </p>
-                        <p> <a href="admin_update_user.html"><button>Update user</button></a><p>
+                        <p> <button onclick="updateUserLS(${deta[0].value}&${deta[1].value}&${deta[2].value}&${deta[3].value}&${deta[4].value}&${deta[5].value}&${deta[6].value}&${deta[7].value}&${deta[8].value}&${deta[9].value}&${deta[10].value}&${deta[11].value}&${deta[12].value})">Update user</button><br><br><p>
                         <p> <button onclick="delete_user_admin(${deta[0].value})">Delete user</button></a><p><br> <br>
+                        <br><br>
                         `;
                         document.getElementById('users').appendChild(div)
                     }
@@ -38,7 +40,7 @@ window.onload = async function(){
         .catch(function (err){
             console.log(err)
         })
-
+    // Fetching matches
     await fetch(`http://localhost:7071/api/get_all_matches`)
     .then(
         function(response){
@@ -114,4 +116,39 @@ async function delete_user_admin(user_id){
         .catch(function (err){
             console.log(err)
         })
-    }}
+}}
+
+var loginButton = document.getElementById("User")
+
+async function updateUserLS (user_id){
+loginButton.addEventListener("click",function(){
+    fetch(`http://localhost:7071/api/update_user_admin_get?user_id=${user_id}`)
+        .then(
+            function(response){
+                if (response.status !== 200){
+                    console.log("Error " + response.status)
+                    return 
+                }
+
+                response.json().then(function(data){
+                    localStorage.setItem(`${deta[0].value}`);
+                    localStorage.setItem(`${deta[1].value} ${deta[2].value}`);
+                    localStorage.setItem(`${deta[3].value}`);
+                    localStorage.setItem(`${deta[4].value}`);
+                    localStorage.setItem(`${deta[5].value}`);
+                    localStorage.setItem(`${deta[6].value}`);
+                    localStorage.setItem(`${deta[7].value}`);
+                    localStorage.setItem(`${deta[8].value}`);
+                    localStorage.setItem(`${deta[9].value}`);
+                    localStorage.setItem(`${deta[10].value}`);
+                    localStorage.setItem(`${deta[11].value}`);
+                    localStorage.setItem(`${deta[12].value}`);
+                    console.log(data);
+                })
+            }
+        )
+        .catch(function (err){
+            console.log(err)
+        })
+})
+}
