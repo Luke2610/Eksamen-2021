@@ -274,7 +274,7 @@ function delete_users_user(user_id){
 module.exports.delete_users_user = delete_users_user
 
 
-}
+
 
 function get_like(user_id){
     return new Promise((resolve,reject) => {
@@ -607,3 +607,95 @@ function get_all_matches(){
 }
 
 module.exports.get_all_matches = get_all_matches
+
+function update_user_admin_get(payload){
+    return new Promise((resolve,reject) => {
+        const sql = `SELECT [users].[user] WHERE firstname = @firstname, lastname = @lastname, gender = @gender, birthdate = @birthdate, country = @country, city = @city, interestedInGender = @interestedInGender, maxAge = @maxAge, minAge = @minAge, biography = @biography, email = @email, hashed_password = @hashed_password, user_id = @user_id`
+        const request = new Request(sql, (err) => {
+            if (err){
+                reject(err)
+                console.log(err)
+            }
+        });
+        request.addParameter('user_id', TYPES.VarChar, payload.user_id)
+        request.addParameter('firstname', TYPES.VarChar, payload.firstname)
+        request.addParameter('lastname', TYPES.VarChar, payload.lastname)
+        request.addParameter('gender', TYPES.VarChar, payload.gender)
+        request.addParameter('birthdate', TYPES.Date, payload.birthdate)
+        request.addParameter('country', TYPES.VarChar, payload.country)
+        request.addParameter('city', TYPES.VarChar, payload.city)
+        request.addParameter('interestedInGender', TYPES.VarChar, payload.interestedInGender)
+        request.addParameter('maxAge', TYPES.Int, payload.maxAge)
+        request.addParameter('minAge', TYPES.Int, payload.minAge)
+        request.addParameter('biography', TYPES.VarChar, payload.biography)
+        request.addParameter('email', TYPES.VarChar, payload.email)
+        request.addParameter('hashed_password', TYPES.VarChar, payload.hashed_password)
+
+        request.on('requestCompleted', (row) => {
+            resolve('user retrieved',row)
+        });
+        connection.execSql(request);
+
+    });
+
+}
+
+module.exports.update_user_admin_get = update_user_admin_get
+
+function update_user_admin(payload){
+    return new Promise((resolve,reject) => {
+        const sql = `UPDATE [users].[user] SET firstname = @firstname, lastname = @lastname, gender = @gender, birthdate = @birthdate, country = @country, city = @city, interestedInGender = @interestedInGender, maxAge = @maxAge, minAge = @minAge, biography = @biography, email = @email, hashed_password = @hashed_password WHERE user_id = @user_id`
+        const request = new Request(sql, (err) => {
+            if (err){
+                reject(err)
+                console.log(err)
+            }
+        });
+        request.addParameter('user_id', TYPES.VarChar, payload.user_id)
+        request.addParameter('firstname', TYPES.VarChar, payload.firstname)
+        request.addParameter('lastname', TYPES.VarChar, payload.lastname)
+        request.addParameter('gender', TYPES.VarChar, payload.gender)
+        request.addParameter('birthdate', TYPES.Date, payload.birthdate)
+        request.addParameter('country', TYPES.VarChar, payload.country)
+        request.addParameter('city', TYPES.VarChar, payload.city)
+        request.addParameter('interestedInGender', TYPES.VarChar, payload.interestedInGender)
+        request.addParameter('maxAge', TYPES.Int, payload.maxAge)
+        request.addParameter('minAge', TYPES.Int, payload.minAge)
+        request.addParameter('biography', TYPES.VarChar, payload.biography)
+        request.addParameter('email', TYPES.VarChar, payload.email)
+        request.addParameter('hashed_password', TYPES.VarChar, payload.hashed_password)
+
+        request.on('requestCompleted', (row) => {
+            console.log('User updated', row);
+            resolve('user updated',row)
+        });
+        connection.execSql(request);
+
+    });
+
+}
+module.exports.update_user_admin = update_user_admin
+
+function delete_user_admin(user_id){
+
+    return new Promise((resolve,reject) => {
+        const sql = 'DELETE FROM [users].[user] WHERE user_id = @user_id'
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            reject({message: 'User does not exist'})
+        }
+    });
+        
+    request.addParameter('user_id', TYPES.Int, user_id)
+
+    request.on('done',(colums) => {
+        resolve(colums)
+    })
+    connection.execSql(request)  
+    }) 
+}
+
+module.exports.delete_user_admin = delete_user_admin
