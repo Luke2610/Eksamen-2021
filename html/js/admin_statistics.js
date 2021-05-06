@@ -17,7 +17,7 @@ window.onload = async function(){
                         <p> User_ID: ${deta[0].value}
                         <p> Name: ${deta[1].value} ${deta[2].value} </p>
                         <p> Gender: ${deta[3].value} </p>
-                        <p> Birthdate: ${new Date(deta[4].value)} </p>
+                        <p> Birthdate: ${deta[4].value} </p>
                         <p> Country: ${deta[5].value} </p>
                         <p> City: ${deta[6].value} </p>
                         <p> Interested in: ${deta[7].value} </p>
@@ -26,10 +26,9 @@ window.onload = async function(){
                         <p> Biography: ${deta[10].value}<p>
                         <p> Email: ${deta[11].value} </p>
                         <p> Password: ${deta[12].value} </p>
-                        <p> Created at: ${new Date(deta[13].value)} </p>
-                        <p> <button onclick="updateUserLS(${deta[0].value}&${deta[1].value}&${deta[2].value}&${deta[3].value}&${deta[4].value}&${deta[5].value}&${deta[6].value}&${deta[7].value}&${deta[8].value}&${deta[9].value}&${deta[10].value}&${deta[11].value}&${deta[12].value})">Update user</button><br><br><p>
-                        <p> <button onclick="delete_user_admin(${deta[0].value})">Delete user</button></a><p><br> <br>
-                        <br><br>
+                        <p> Created at: ${deta[13].value} </p>
+                        <button onclick="update_user_admin(${deta[0].value})">Update user</button><br><br>
+                        <button onclick="delete_user_admin(${deta[0].value})">Delete user</button><br> <br>
                         `;
                         document.getElementById('users').appendChild(div)
                     }
@@ -59,6 +58,7 @@ window.onload = async function(){
     })
    
 }
+
 async function delete_user_admin(user_id){
     if (confirm("Are you sure you want to delete your user?") == true) {
         
@@ -118,37 +118,38 @@ async function delete_user_admin(user_id){
         })
 }}
 
-var loginButton = document.getElementById("User")
-
-async function updateUserLS (user_id){
-loginButton.addEventListener("click",function(){
-    fetch(`http://localhost:7071/api/update_user_admin_get?user_id=${user_id}`)
+function update_user_admin(user_id){
+    fetch(`http://localhost:7071/api/get_user_admin?user_id=${user_id}`)
         .then(
             function(response){
                 if (response.status !== 200){
-                    console.log("Error " + response.status)
+                    console.log("Noget gik galt " + response.status)
                     return 
                 }
 
-                response.json().then(function(data){
-                    localStorage.setItem(`${deta[0].value}`);
-                    localStorage.setItem(`${deta[1].value} ${deta[2].value}`);
-                    localStorage.setItem(`${deta[3].value}`);
-                    localStorage.setItem(`${deta[4].value}`);
-                    localStorage.setItem(`${deta[5].value}`);
-                    localStorage.setItem(`${deta[6].value}`);
-                    localStorage.setItem(`${deta[7].value}`);
-                    localStorage.setItem(`${deta[8].value}`);
-                    localStorage.setItem(`${deta[9].value}`);
-                    localStorage.setItem(`${deta[10].value}`);
-                    localStorage.setItem(`${deta[11].value}`);
-                    localStorage.setItem(`${deta[12].value}`);
-                    console.log(data);
+                response.json().then(function(deta){
+                    data = deta[0]
+                    localStorage.setItem('user_id',user_id);
+                    localStorage.setItem('firstname',data[1].value);
+                    localStorage.setItem('lastname',data[2].value)
+                    localStorage.setItem('gender',data[3].value);
+                    localStorage.setItem('birthdate',data[4].value);
+                    localStorage.setItem('country',data[5].value);
+                    localStorage.setItem('city',data[6].value);
+                    localStorage.setItem('interestedInGender',data[7].value);
+                    localStorage.setItem('maxAge',data[8].value);
+                    localStorage.setItem('minAge',data[9].value);
+                    localStorage.setItem('biography',data[10].value);
+                    localStorage.setItem('email',data[11].value);
+                    localStorage.setItem('password',data[12].value);
+                    localStorage.setItem('created_at',data[13].value);
+                    window.location.replace("./admin_update_user.html")
+
                 })
             }
         )
         .catch(function (err){
             console.log(err)
         })
-})
+    
 }

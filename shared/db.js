@@ -699,3 +699,31 @@ function delete_user_admin(user_id){
 }
 
 module.exports.delete_user_admin = delete_user_admin
+
+function select_user_admin(user_id){
+    return new Promise((resolve,reject) => {
+        var result = []
+        var sql = 'SELECT * FROM [users].[user] WHERE user_id = @user_id'
+    
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            resolve(result)
+        } else {
+            console.log(`${rowcount} row(s) returned`)
+            resolve(result)
+        }
+    });
+    request.addParameter('user_id', TYPES.Int, user_id)
+
+        request.on('row',(columns) => {
+            result.push(columns)
+        })
+
+    connection.execSql(request)  
+    })
+}
+
+module.exports.select_user_admin = select_user_admin
