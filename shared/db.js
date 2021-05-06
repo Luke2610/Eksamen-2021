@@ -273,8 +273,6 @@ function delete_users_user(user_id){
 
 module.exports.delete_users_user = delete_users_user
 
-/* Function for get all users to admin */
-function getallusers(){
 
 }
 
