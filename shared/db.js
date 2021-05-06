@@ -556,3 +556,56 @@ function update_user(payload){
 }
 
 module.exports.update_user = update_user
+
+//function that gets all users from the database
+function get_all_users(){
+    return new Promise((resolve,reject) => {
+        var result = []
+        var sql = 'SELECT * FROM [users].[user] ORDER BY gender'
+    
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            resolve(result)
+        } else {
+            console.log(`${rowcount} row(s) returned`)
+            resolve(result)
+        }
+    });
+        request.on('row',(columns) => {
+            result.push(columns)
+        })
+
+    connection.execSql(request)  
+    })
+}
+
+module.exports.get_all_users = get_all_users
+
+function get_all_matches(){
+    return new Promise((resolve,reject) => {
+        var result = []
+        var sql = 'SELECT * FROM [users].[matches]'
+    
+        const request = new Request(sql, (err,rowcount) => {
+        if(err){
+            reject(err)
+            console.log(err)
+        } else if (rowcount == 0) {
+            resolve(result)
+        } else {
+            console.log(`${rowcount} row(s) returned`)
+            resolve(result)
+        }
+    });
+        request.on('row',(columns) => {
+            result.push(columns)
+        })
+
+    connection.execSql(request)  
+    })
+}
+
+module.exports.get_all_matches = get_all_matches

@@ -44,7 +44,6 @@ window.onload = async function() {
                     console.log("Noget gik galt " + response.status)
                     return 
                 }
-                i = 0
                 response.json().then(function(data){
 
                     
