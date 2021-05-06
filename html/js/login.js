@@ -3,17 +3,16 @@ var loginButton = document.getElementById("loginButton")
 loginButton.addEventListener("click",function(){
     var email = document.getElementById("email").value
     var hashed_password = document.getElementById("password").value
-    console.log(email,hashed_password)
     fetch(`http://localhost:7071/api/get_User?email=${email}&hashed_password=${hashed_password}`)
         .then(
             function(response){
                 if (response.status !== 200){
-                    console.log("Noget gik galt " + response.status)
+                    console.log("User not found " + response.status)
+                    document.getElementById("Notfound").innerHTML = "Email or password not valid"
                     return 
                 }
 
                 response.json().then(function(data){
-                    console.log(data);
                     window.location.replace("./likeside.html")
                     document.cookie = "user_id=" + data[0].value
                     document.cookie = "firstname=" + data[1].value;
@@ -27,6 +26,7 @@ loginButton.addEventListener("click",function(){
                     document.cookie = "minAge=" + data[9].value;
                     document.cookie = "biography=" + data[10].value;
                     document.cookie = "email=" + data[11].value;
+                    document.cookie = "hashed_password=" + data[12].value
                     document.cookie = "age=" + data[14].value
                 })
             }

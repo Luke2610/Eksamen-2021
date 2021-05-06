@@ -1,5 +1,5 @@
 const db = require('../shared/db')
-
+/* Establishing a connection to th database */
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
@@ -16,29 +16,28 @@ module.exports = async function (context, req) {
         case 'POST':
             await post(context,req);
             break;
-        case 'DELETE':
-            await delete(context,req);
+        case 'PUT' :
+            await put(context,req);
             break;
         default:
             context.res ={
-                body: "Please get, delete or post"
+                body: "Please get or post"
             };
             break
     }
 }
 
-async function get(context,req){
+async function put(context,req){
     try{
-        let user_id = req.query.user_id;
-        let match = await db.delete_match(user_id)
-        let user = await db.delete_users_like(user_id)
+        let payload = req.body;
+        await db.update_user(payload)
         context.res = {
-            body: user
+            body: {status: 'Succes'}
         }
     } catch(error) {
         context.res = {
             status: 400,
-            body: `Did not delete - ${error.message}`
+            body: error.message
         }
     }
 }

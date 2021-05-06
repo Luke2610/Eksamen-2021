@@ -5,12 +5,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
-    <h1>Welcome admin!</h1>
+    <title>Datingweb</title>
     <link rel="stylesheet" href="style/styles.css">
 </head>
 <body>
-
-    
+    <header>
+        <h1>Admincontrol</h1>
+    </header>
+    <h3 id="firstname">Welcome </h3>
+    <div class="menu">
+        <a href="admin_statistics.html"><button>Statistics</button></a>
+        <a href="admin_update_user.html"><button>Update User</button></a>
+        <a href="admin_delete_user.html"><button>Delete User</button></a>
+        <button onclick="logout()">Logout</button>
+    </div>
     <script src="js/adminpage.js"></script>
 </body>

@@ -30,15 +30,15 @@ module.exports = async function (context, req) {
 async function get(context,req){
     try{
         let user_id = req.query.user_id;
-        let match = await db.delete_match(user_id)
-        let user = await db.delete_users_like(user_id)
+        let delete_user_id = req.query.delete_user_id
+        let user = await db.delete_dislike(user_id,delete_user_id)
         context.res = {
             body: user
         }
     } catch(error) {
         context.res = {
             status: 400,
-            body: `Did not delete - ${error.message}`
+            body: `No dislike - ${error.message}`
         }
     }
 }

@@ -16,29 +16,36 @@ module.exports = async function (context, req) {
         case 'POST':
             await post(context,req);
             break;
-        case 'DELETE':
-            await delete(context,req);
-            break;
         default:
             context.res ={
-                body: "Please get, delete or post"
+                body: "Please get or post"
             };
             break
     }
 }
 
 async function get(context,req){
+    var result = []
     try{
         let user_id = req.query.user_id;
-        let match = await db.delete_match(user_id)
-        let user = await db.delete_users_like(user_id)
+        let liked_users = await db.get_like_for_like(user_id)
+
+        for(i=0;i<liked_users.length;i++){
+            let liked_user = liked_users[i]
+            let like_id_1 = liked_user[0].value
+            let like_id_2 = liked_user[4].value
+            let other_user_id = liked_user[2].value
+            let match = await db.create_match(like_id_1,like_id_2,user_id,other_user_id)
+        }
+
+        let matches = await db.get_match(user_id)
         context.res = {
-            body: user
+            body: matches
         }
     } catch(error) {
         context.res = {
             status: 400,
-            body: `Did not delete - ${error.message}`
+            body: `No like - ${error.message}`
         }
     }
 }

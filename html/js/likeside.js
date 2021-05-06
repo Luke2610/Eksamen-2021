@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = async function() {
     if(readCookie("email") === null){
     window.location.replace("./homepage.html") 
     }
@@ -13,7 +13,7 @@ window.onload = function() {
     var minAge = readCookie("minAge")
     var interestedInGender = readCookie("interestedInGender")
 
-    fetch(`http://localhost:7071/api/get_other_users?user_id=${user_id}&gender=${gender}&interestedInGender=${interestedInGender}&maxAge=${maxAge}&minAge=${minAge}`)
+    await fetch(`http://localhost:7071/api/match_notification?user_id=${user_id}`)
         .then(
             function(response){
                 if (response.status !== 200){
@@ -21,6 +21,29 @@ window.onload = function() {
                     return 
                 }
                 i = 0
+                response.json().then(function(data){
+                    console.log(data.length)
+                    match = " match"
+                    if (data.length > 1){
+                        match = " matches"
+                    }
+                    document.getElementById("matches").innerHTML += data.length + match
+                    
+                })
+            }
+        )
+        .catch(function (err){
+            console.log(err)
+        })
+
+
+    await fetch(`http://localhost:7071/api/get_other_users?user_id=${user_id}&gender=${gender}&interestedInGender=${interestedInGender}&maxAge=${maxAge}&minAge=${minAge}`)
+        .then(
+            function(response){
+                if (response.status !== 200){
+                    console.log("Noget gik galt " + response.status)
+                    return 
+                }
                 response.json().then(function(data){
 
                     
@@ -73,7 +96,7 @@ function deleteLocal(){
 function like(liked_user_id){
     var user_id = readCookie("user_id")
 
-    fetch("http://localhost:7071/api/store_like", {
+    fetch("http://localhost:7071/api/post_like", {
         method: 'POST',
         body: JSON.stringify({
             user_id: user_id,
@@ -98,7 +121,7 @@ function like(liked_user_id){
 function dislike(disliked_user_id){
     var user_id = readCookie("user_id")
     
-    fetch("http://localhost:7071/api/store_dislike", {
+    fetch("http://localhost:7071/api/post_dislike", {
         method: 'POST',
         body: JSON.stringify({
             user_id: user_id,

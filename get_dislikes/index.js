@@ -16,12 +16,9 @@ module.exports = async function (context, req) {
         case 'POST':
             await post(context,req);
             break;
-        case 'DELETE':
-            await delete(context,req);
-            break;
         default:
             context.res ={
-                body: "Please get, delete or post"
+                body: "Please get or post"
             };
             break
     }
@@ -30,15 +27,14 @@ module.exports = async function (context, req) {
 async function get(context,req){
     try{
         let user_id = req.query.user_id;
-        let match = await db.delete_match(user_id)
-        let user = await db.delete_users_like(user_id)
+        let user = await db.get_dislike(user_id)
         context.res = {
             body: user
         }
     } catch(error) {
         context.res = {
             status: 400,
-            body: `Did not delete - ${error.message}`
+            body: `No like - ${error.message}`
         }
     }
 }

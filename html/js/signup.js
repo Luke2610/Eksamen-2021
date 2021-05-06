@@ -24,7 +24,7 @@ form.addEventListener('submit',function(e){
     var email = document.getElementById("email").value
     var hashed_password = document.getElementById("hashed_password").value
 
-    fetch("http://localhost:7071/api/user", {
+    fetch("http://localhost:7071/api/post_user", {
         method: 'POST',
         body: JSON.stringify({
             firstname: firstname,
