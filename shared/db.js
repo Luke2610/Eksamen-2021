@@ -273,9 +273,6 @@ function delete_users_user(user_id){
 
 module.exports.delete_users_user = delete_users_user
 
-
-}
-
 function get_like(user_id){
     return new Promise((resolve,reject) => {
         var result = []
