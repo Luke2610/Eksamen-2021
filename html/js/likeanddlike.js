@@ -1,7 +1,7 @@
 window.onload = async function onLoad(){
     var user_id = readCookie("user_id")
 
-    await fetch(`http://localhost:7071/api/get_like?user_id=${user_id}`)
+    await fetch(`http://localhost:7071/api/get_like?user_id=${user_id}`) //get all users likes from the database
         .then(
             function(response){
                 if (response.status !== 200){
@@ -10,7 +10,7 @@ window.onload = async function onLoad(){
                 }
                 response.json().then(function(data){
 
-                   for(i=0;i<data.length;i++){
+                   for(i=0;i<data.length;i++){ //writes every like in the HTML
                         deta = data[i]
                         const div = document.createElement("div")
                         div.className = 'User'
@@ -20,7 +20,7 @@ window.onload = async function onLoad(){
                         <p> Age: ${deta[4].value} </p>
                         <p> City: ${deta[5].value} </p>
                         <p> Biography: ${deta[6].value} <br> <br>
-                        <button onclick="delete_like(${deta[0].value})"> Remove Like </button>
+                        <button onclick="delete_like(${deta[0].value})"> Remove Like </button> 
                         `;
                         document.getElementById('Likes').appendChild(div)
                     }
@@ -31,7 +31,7 @@ window.onload = async function onLoad(){
             console.log(err)
         })
 
-    await fetch(`http://localhost:7071/api/get_dislikes?user_id=${user_id}`)
+    await fetch(`http://localhost:7071/api/get_dislikes?user_id=${user_id}`) //get all users dislikes from the database
         .then(
             function(response){
                 if (response.status !== 200){
@@ -40,7 +40,7 @@ window.onload = async function onLoad(){
                 }
                 response.json().then(function(data){
 
-                   for(i=0;i<data.length;i++){
+                   for(i=0;i<data.length;i++){ //writes every like in the HTML
                         deta = data[i]
                         const div = document.createElement("div")
                         div.className = 'User'
@@ -62,7 +62,7 @@ window.onload = async function onLoad(){
         })
 }
 
-function readCookie(name) {
+function readCookie(name) { //read cookie function
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
     for(var i=0;i < ca.length;i++) {
@@ -73,7 +73,7 @@ function readCookie(name) {
     return null;
 }
 
-function delete_like(delete_user_id){
+function delete_like(delete_user_id){ //function that deletes likes (and matches) from database
     var user_id = readCookie("user_id")
 
     fetch(`http://localhost:7071/api/delete_like?user_id=${user_id}&delete_user_id=${delete_user_id}`)
@@ -94,7 +94,7 @@ function delete_like(delete_user_id){
     })
 }
 
-function delete_dislike(delete_user_id){
+function delete_dislike(delete_user_id){ //function that deletes dislikes from database
     var user_id = readCookie("user_id")
     
     fetch(`http://localhost:7071/api/delete_dislike?user_id=${user_id}&delete_user_id=${delete_user_id}`)

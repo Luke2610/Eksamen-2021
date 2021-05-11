@@ -1,5 +1,7 @@
 var loginButton = document.getElementById("loginButton")
 
+
+//get user request to the database
 loginButton.addEventListener("click",function(){
     var email = document.getElementById("email").value
     var hashed_password = document.getElementById("password").value
@@ -13,7 +15,7 @@ loginButton.addEventListener("click",function(){
                 }
 
                 response.json().then(function(data){
-                    window.location.replace("./likeside.html")
+                    window.location.replace("./likeside.html") //save all userdata in cookies
                     document.cookie = "user_id=" + data[0].value
                     document.cookie = "firstname=" + data[1].value;
                     document.cookie = "lastname=" + data[2].value
@@ -36,13 +38,14 @@ loginButton.addEventListener("click",function(){
         })
 })
 
-
+//if an email is placed within the browsers cookies, send the user to the next site
 window.onload = function() {
-    if(readCookie("email") != null){
+    if(readCookie("email") != null){ 
     window.location.replace("./likeside.html") 
     }
 }
 
+//reads the cookies
 function readCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');

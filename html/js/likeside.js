@@ -72,6 +72,7 @@ window.onload = async function() {
     
 }
 
+//readcookie function
 function readCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
@@ -83,6 +84,7 @@ function readCookie(name) {
     return null;
 }
 
+//delete cookies and logout function
 function deleteLocal(){
     var cok = document.cookie;
             var multiple = cok.split(";");
@@ -93,6 +95,8 @@ function deleteLocal(){
     window.location.replace("./homepage.html")
 }
 
+
+//like user function
 function like(liked_user_id){
     var user_id = readCookie("user_id")
 
@@ -118,6 +122,7 @@ function like(liked_user_id){
     })
 }
 
+//dislike user function
 function dislike(disliked_user_id){
     var user_id = readCookie("user_id")
     

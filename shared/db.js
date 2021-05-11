@@ -118,7 +118,7 @@ async function select_other_users(user_id,gender,interestedInGender,minAge,maxAg
     return new Promise((resolve,reject) => {
         var result = []
         if(gender == interestedInGender){
-            var sql = 'SELECT user_id,firstname,lastname,gender,city,biography, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age FROM [users].[user] where gender = @interestedInGender AND interestedInGender = @interestedInGender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge'
+            var sql = 'SELECT user_id,firstname,lastname,gender,city,biography, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age, l.user_id_1, l.user_id_2, d.user_id_1, d.user_id_2 FROM [users].[user] LEFT JOIN users.[like] l on [user].user_id = l.user_id_2 LEFT JOIN users.dislike d on [user].user_id = d.user_id_2 WHERE gender = @interestedInGender AND interestedInGender = @interestedInGender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge AND l.user_id_1 Is NULL AND d.user_id_1 Is NULL'
         } else {
              var sql = 'SELECT user_id,firstname,lastname,gender,city,biography, YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) AS age, l.user_id_1, l.user_id_2, d.user_id_1, d.user_id_2  FROM [users].[user] LEFT JOIN users.[like] l on [user].user_id = l.user_id_2 LEFT JOIN users.dislike d on [user].user_id = d.user_id_2 WHERE gender = @interestedInGender AND interestedInGender = @gender AND YEAR((CURRENT_TIMESTAMP)) - YEAR(birthdate) BETWEEN @minAge AND @maxAge AND l.user_id_1 Is NULL AND d.user_id_1 Is NULL'
         }
@@ -193,7 +193,6 @@ function insert_dislike(payload){
             resolve('Dislike inserted',row)
         });
         connection.execSql(request);
-
     });
 }
 
