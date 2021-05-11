@@ -1,7 +1,5 @@
 const {Connection, Request, TYPES} = require('tedious');
 const config = require('./config.json')
-const bcrypt = require ('bcrypt');
-const saltRounds = 4;
 
 var connection = new Connection(config)
 
@@ -24,8 +22,7 @@ function startDb(){
 
 module.exports.sqlConnection = connection;
 module.exports.startDb = startDb;
-module.exports.bcrypt = bcrypt
-module.exports.saltRounds = saltRounds
+
 
 /* Function for user registration */
 function insert(payload){
@@ -113,7 +110,7 @@ function select_admin_email(email,hashed_password){
 
 module.exports.select_admin_email = select_admin_email;
 
-//function that gets all users with filters
+/* function that gets all users with filters */
 async function select_other_users(user_id,gender,interestedInGender,minAge,maxAge){
     return new Promise((resolve,reject) => {
         var result = []
@@ -175,7 +172,7 @@ function insert_like(payload){
 
 module.exports.insert_like = insert_like
 
-//dislike function
+/* dislike function */
 function insert_dislike(payload){
     return new Promise((resolve,reject) => {
         const sql = `INSERT INTO [users].[dislike] (user_id_1,user_id_2) VALUES (@user_id,@disliked_user_id)`
@@ -198,6 +195,7 @@ function insert_dislike(payload){
 
 module.exports.insert_dislike = insert_dislike
 
+/* delete dislikes from database function */
 function delete_users_dislike(user_id){
 
     return new Promise((resolve,reject) => {
@@ -222,7 +220,7 @@ function delete_users_dislike(user_id){
 
 module.exports.delete_users_dislike = delete_users_dislike
 
-//function that deletes user likes
+/* function that deletes user likes */
 function delete_users_like(user_id){
 
     return new Promise((resolve,reject) => {
@@ -247,7 +245,7 @@ function delete_users_like(user_id){
 
 module.exports.delete_users_like = delete_users_like
 
-//function delete user from database
+/* function delete user from database */
 function delete_users_user(user_id){
 
     return new Promise((resolve,reject) => {
@@ -272,9 +270,7 @@ function delete_users_user(user_id){
 
 module.exports.delete_users_user = delete_users_user
 
-
-
-
+/* Get liked users from database */
 function get_like(user_id){
     return new Promise((resolve,reject) => {
         var result = []
@@ -304,6 +300,7 @@ function get_like(user_id){
 
 module.exports.get_like = get_like
 
+/* delete likes from database */
 function delete_like(user_id,delete_user_id){
     return new Promise((resolve,reject) => {
         var sql = 'DELETE FROM [users].[like] WHERE user_id_1 = @user_id AND user_id_2 = @delete_user_id'
@@ -329,6 +326,7 @@ function delete_like(user_id,delete_user_id){
 
 module.exports.delete_like = delete_like
 
+/* get all dislikes */
 function get_dislike(user_id){
     return new Promise((resolve,reject) => {
         var result = []
@@ -358,6 +356,7 @@ function get_dislike(user_id){
 
 module.exports.get_dislike = get_dislike
 
+/* delete dislikes */
 function delete_dislike(user_id,delete_user_id){
     return new Promise((resolve,reject) => {
         var sql = 'DELETE FROM [users].[dislike] WHERE user_id_1 = @user_id AND user_id_2 = @delete_user_id'
@@ -383,6 +382,7 @@ function delete_dislike(user_id,delete_user_id){
 
 module.exports.delete_dislike = delete_dislike
 
+/* get likes for a specific user */
 function get_like_for_match(user_id){
     return new Promise((resolve,reject) => {
         var result = []
@@ -412,6 +412,7 @@ function get_like_for_match(user_id){
 
 module.exports.get_like_for_match = get_like_for_match
 
+/* finds likes that matches own likes */
 function get_like_for_like(user_id){
     return new Promise((resolve,reject) => {
         var result = []
@@ -441,6 +442,7 @@ function get_like_for_like(user_id){
 
 module.exports.get_like_for_like = get_like_for_like
 
+/* create match from likes */
 function create_match(like_id_1,like_id_2,user_id,other_user_id){
     return new Promise((resolve,reject) => {
         var sql = 'INSERT INTO [users].[matches] (user_id_1,user_id_2,like_id_1,like_id_2) VALUES(@user_id,@other_user_id,@like_id_1,@like_id_2)'
@@ -465,6 +467,7 @@ function create_match(like_id_1,like_id_2,user_id,other_user_id){
 
 module.exports.create_match = create_match
 
+/* get a users matches */
 function get_match(user_id){
     return new Promise((resolve,reject) => {
         var result = []
@@ -494,6 +497,7 @@ function get_match(user_id){
 
 module.exports.get_match = get_match
 
+/* delete a users match */
 function delete_match(user_id,delete_user_id){
     return new Promise((resolve,reject) => {
         var sql = 'DELETE FROM [users].[matches] WHERE user_id_1 = @user_id AND user_id_2 = @delete_user_id'
@@ -519,6 +523,7 @@ function delete_match(user_id,delete_user_id){
 
 module.exports.delete_match = delete_match
 
+/* update a user */
 function update_user(payload){
     return new Promise((resolve,reject) => {
         const sql = `UPDATE [users].[user] SET firstname = @firstname, lastname = @lastname, gender = @gender, birthdate = @birthdate, country = @country, city = @city, interestedInGender = @interestedInGender, maxAge = @maxAge, minAge = @minAge, biography = @biography, email = @email, hashed_password = @hashed_password WHERE user_id = @user_id`
@@ -554,7 +559,7 @@ function update_user(payload){
 
 module.exports.update_user = update_user
 
-//function that gets all users from the database
+/* function that gets all users from the database */
 function get_all_users(){
     return new Promise((resolve,reject) => {
         var result = []
@@ -581,6 +586,7 @@ function get_all_users(){
 
 module.exports.get_all_users = get_all_users
 
+/* get all matches from the system for admin */
 function get_all_matches(){
     return new Promise((resolve,reject) => {
         var result = []
@@ -607,6 +613,7 @@ function get_all_matches(){
 
 module.exports.get_all_matches = get_all_matches
 
+/* admin get current data from users */
 function update_user_admin_get(payload){
     return new Promise((resolve,reject) => {
         const sql = `SELECT [users].[user] WHERE firstname = @firstname, lastname = @lastname, gender = @gender, birthdate = @birthdate, country = @country, city = @city, interestedInGender = @interestedInGender, maxAge = @maxAge, minAge = @minAge, biography = @biography, email = @email, hashed_password = @hashed_password, user_id = @user_id`
@@ -641,6 +648,7 @@ function update_user_admin_get(payload){
 
 module.exports.update_user_admin_get = update_user_admin_get
 
+/* admin can update user */
 function update_user_admin(payload){
     return new Promise((resolve,reject) => {
         const sql = `UPDATE [users].[user] SET firstname = @firstname, lastname = @lastname, gender = @gender, birthdate = @birthdate, country = @country, city = @city, interestedInGender = @interestedInGender, maxAge = @maxAge, minAge = @minAge, biography = @biography, email = @email, hashed_password = @hashed_password WHERE user_id = @user_id`
@@ -675,6 +683,7 @@ function update_user_admin(payload){
 }
 module.exports.update_user_admin = update_user_admin
 
+/* admin can delete an user */
 function delete_user_admin(user_id){
 
     return new Promise((resolve,reject) => {
@@ -699,6 +708,7 @@ function delete_user_admin(user_id){
 
 module.exports.delete_user_admin = delete_user_admin
 
+/* get a user from the database */
 function select_user_admin(user_id){
     return new Promise((resolve,reject) => {
         var result = []

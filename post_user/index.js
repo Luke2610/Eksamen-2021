@@ -26,10 +26,10 @@ module.exports = async function (context, req) {
 
 async function post(context,req){
     try{
-        let payload = req.body;
-        await db.insert(payload)
+        let payload = req.body; //make payload be the data from the signup form
+        await db.insert(payload) //insert into .db (database)
         context.res = {
-            body: {status: 'Succes'}
+            body: {status: 'Succes'} //return succes
         }
     } catch(error) {
         context.res = {
